@@ -52,7 +52,14 @@ disjunction xs ys = (uniqueChars xs ys) ++ (uniqueChars ys xs)
 		uniqueChars as bs = unique [a | a <- as, not (a `elem` bs)]
 
 -- 8.
-isPermutation :: Eq a => [a] -> [a] -> Bool
+quicksort :: (Ord a) => [a] -> [a]  
+quicksort [] = []  
+quicksort (x:xs) =   
+    let smallerList = quicksort [a | a <- xs, a <= x]  
+        biggerList = quicksort [a | a <- xs, a > x]  
+    in  smallerList ++ [x] ++ biggerList  
+
+isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation as bs
 	| length as /= length bs = False
-	| otherwise = length [x | x <- as, x `elem` bs] == length bs
+	| otherwise = quicksort as == quicksort bs
