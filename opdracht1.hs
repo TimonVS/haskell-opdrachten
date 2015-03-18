@@ -30,6 +30,8 @@ longestDecimal :: String -> Int
 longestDecimal xs = read $ (maximum (getDecimalsAsString xs)) :: Int
 
 -- 5.
+maxDecimal :: String -> Int
+maxDecimal xs = maximum (getDecimals xs)
 
 -- 6.
 unique :: (Eq a) => [a] -> [a]
@@ -48,3 +50,9 @@ disjunction :: String -> String -> String
 disjunction xs ys = (uniqueChars xs ys) ++ (uniqueChars ys xs)
 	where
 		uniqueChars as bs = unique [a | a <- as, not (a `elem` bs)]
+
+-- 8.
+isPermutation :: Eq a => [a] -> [a] -> Bool
+isPermutation as bs
+	| length as /= length bs = False
+	| otherwise = length [x | x <- as, x `elem` bs] == length bs
