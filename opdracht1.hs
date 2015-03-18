@@ -1,11 +1,5 @@
-import Data.List
-import Data.Char
-import Data.Maybe
-import Data.Bits
-import Data.List.Split
-
-isDigit' :: Char -> Bool
-isDigit' x = x `elem` ['0'..'9']
+isDigit :: Char -> Bool
+isDigit x = x `elem` ['0'..'9']
 
 -- 1.
 containsDecimal :: String -> Bool
@@ -16,22 +10,29 @@ containsDecimal (x:xs)
 
 -- 2.
 getDecimalsAsString :: String -> [String]
-getDecimalsAsString xs = wordsBy (\x -> not (isDigit' x) .|. isSeparator x) xs
+getDecimalsAsString [] = []
+getDecimalsAsString (x:xs)
+	| isDigit x = (x : chain) : getDecimalsAsString (drop (length chain) xs)
+	| otherwise = getDecimalsAsString xs
+	where chain = takeWhile isDigit xs
 
 getDecimals :: String -> [Int]
 getDecimals xs = map read $ (getDecimalsAsString xs) :: [Int]
 
 -- 3.
 decimalCount :: String -> Int
-decimalCount xs = length (getDecimalsAsString xs)
+decimalCount = length . getDecimalsAsString
 
 -- 4.
 longestDecimal :: String -> Int
-longestDecimal xs = read $ (maximum (getDecimalsAsString xs)) :: Int
+longestDecimal = longestDecimal' . getDecimalsAsString
+	where
+		longestDecimal' [x] = length x
+		longestDecimal' (x:xs) = max (length x) (longestDecimal' xs)
 
 -- 5.
 maxDecimal :: String -> Int
-maxDecimal xs = maximum (getDecimals xs)
+maxDecimal = maximum . getDecimals
 
 -- 6.
 unique :: (Eq a) => [a] -> [a]
