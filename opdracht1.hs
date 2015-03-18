@@ -63,3 +63,10 @@ isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation as bs
 	| length as /= length bs = False
 	| otherwise = quicksort as == quicksort bs
+
+-- 10.
+elken :: [a] -> [[a]]
+elken xs = reverse $ elken' xs (length xs)
+	where
+		elken' _ 0 = []
+		elken' xs d = [xs !! (i - 1) | i <- [1..length xs], i `mod` d == 0] : elken' xs (d - 1)
