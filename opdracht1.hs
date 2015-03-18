@@ -3,9 +3,9 @@ import Data.Char
 import Data.Maybe
 import Data.Bits
 import Data.List.Split
-import Text.ParserCombinators.ReadP
-import Data.Word
-import System.Environment
+
+isDigit' :: Char -> Bool
+isDigit' x = x `elem` ['0'..'9']
 
 containsDecimal :: String -> Bool
 containsDecimal [] = False
@@ -14,17 +14,11 @@ containsDecimal (x:xs)
 	| otherwise = containsDecimal xs
 
 getDecimals :: String -> [Int]
-getDecimals xs = map read $ (wordsBy (\x -> isLetter x .|. isSeparator x) xs) :: [Int]
+getDecimals xs = map read $ (wordsBy (\x -> not (isDigit' x) .|. isSeparator x) xs) :: [Int]
 
 decimalCount :: String -> Int
 decimalCount xs = length (getDecimals xs)
 
--- intLength :: Int -> Int
--- intLength i =
-
--- longestDecimal :: String -> Int
--- longestDecimal (x:xs)
--- 	| 
 
 
 
@@ -37,9 +31,7 @@ decimalCount xs = length (getDecimals xs)
 
 
 
-
-
-
+-- ignore
 evenCount :: String -> [Bool]
 evenCount xs = [even filterInt | x <- xs, isDigit x, let filterInt = digitToInt x]
 
