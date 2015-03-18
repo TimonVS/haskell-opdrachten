@@ -13,30 +13,14 @@ containsDecimal (x:xs)
 	| isDigit x = True
 	| otherwise = containsDecimal xs
 
+getDecimalsAsString :: String -> [String]
+getDecimalsAsString xs = wordsBy (\x -> not (isDigit' x) .|. isSeparator x) xs
+
 getDecimals :: String -> [Int]
-getDecimals xs = map read $ (wordsBy (\x -> not (isDigit' x) .|. isSeparator x) xs) :: [Int]
+getDecimals xs = map read $ (getDecimalsAsString xs) :: [Int]
 
 decimalCount :: String -> Int
-decimalCount xs = length (getDecimals xs)
+decimalCount xs = length (getDecimalsAsString xs)
 
-
-
-
-
-
-
-
-
-
-
-
-
--- ignore
-evenCount :: String -> [Bool]
-evenCount xs = [even filterInt | x <- xs, isDigit x, let filterInt = digitToInt x]
-
-convert x = (map (map read . words) . lines) x
-
-convert' x = (map read . words) x
-
-filterTest xs = map (filter (not . isLetter)) (words xs)
+longestDecimal :: String -> Int
+longestDecimal xs = read $ (maximum (getDecimalsAsString xs)) :: Int
