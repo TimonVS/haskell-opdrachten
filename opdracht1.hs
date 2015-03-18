@@ -70,3 +70,12 @@ elken xs = reverse $ elken' xs (length xs)
 	where
 		elken' _ 0 = []
 		elken' xs d = [xs !! (i - 1) | i <- [1..length xs], i `mod` d == 0] : elken' xs (d - 1)
+
+-- 11.
+locMax :: (Eq a, Ord a) => [a] -> [a]
+locMax [] = []
+locMax (x:[]) = []
+locMax (x:y:[]) = []
+locMax (x:y:z:xs)
+	| y > x && y > z = y : locMax (z:xs)
+	| otherwise = locMax (y:z:xs)
