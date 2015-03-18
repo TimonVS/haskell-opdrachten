@@ -65,6 +65,13 @@ isPermutation as bs
 	| length as /= length bs = False
 	| otherwise = quicksort as == quicksort bs
 
+-- 9.
+equalCount :: String -> String -> String
+equalCount xs ys = foldr (\i acc -> if letterCount commonLetters xs !! i == letterCount commonLetters ys !! i then (commonLetters !! i) : acc else acc) [] [0..length commonLetters - 1]
+	where 
+		commonLetters = intersection xs ys
+		letterCount ls as = map (\l -> foldr (\x acc -> if x == l then 1 + acc else acc) 0 as) ls
+
 -- 10.
 elken :: [a] -> [[a]]
 elken xs = reverse $ elken' xs (length xs)
