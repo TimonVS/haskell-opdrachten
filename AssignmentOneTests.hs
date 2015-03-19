@@ -1,4 +1,4 @@
-import Assignment_One
+import AssignmentOne
 
 {-|
 INFSEN-01-1 - Assignment one tests
