@@ -4,6 +4,7 @@ By Erik Schamper (, INF3C),
 Timon van Spronsen (0866142, INF3C)
 |-}
 
+-- Helper functions
 isDigit :: Char -> Bool
 isDigit x = x `elem` ['0'..'9']
 
@@ -60,14 +61,13 @@ intersection :: String -> String -> String
 intersection xs ys = unique [x | x <- xs, x `elem` ys]
 
 -- 7.
---| 
+--|
 disjunction :: String -> String -> String
 disjunction xs ys = (uniqueChars xs ys) ++ (uniqueChars ys xs)
 	where
 		uniqueChars as bs = unique [a | a <- as, not (a `elem` bs)]
 
 -- 8.
---| 
 quicksort :: (Ord a) => [a] -> [a]  
 quicksort [] = []  
 quicksort (x:xs) =   
@@ -75,7 +75,7 @@ quicksort (x:xs) =
         biggerList = quicksort [a | a <- xs, a > x]  
     in  smallerList ++ [x] ++ biggerList  
 
---| 
+--| Does a quicksort on both input lists and compares them
 isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation as bs
 	| length as /= length bs = False
