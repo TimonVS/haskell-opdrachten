@@ -49,9 +49,9 @@ quicksort (x:xs) =
 containsDecimal :: String -> Bool
 containsDecimal = any isDigit
 
-
 -- 2.
 -- | Returns a list of decimals in a 'String'.
+-- Recursively goes through a 'String' and uses 'span' to group digits.
 getDecimalsAsString :: String -> [String]
 getDecimalsAsString [] = []
 getDecimalsAsString (x:xs)
@@ -94,7 +94,8 @@ disjunction xs ys = (uniqueElements xs ys) ++ (uniqueElements ys xs)
 		uniqueElements as bs = unique [a | a <- as, not (a `elem` bs)]
 
 -- 8.
--- | Does a quicksort on both input lists and compares them
+-- | Takes two 'String's and checks whether or not they are a permutation of eachother. 
+-- Does a quicksort on both input lists and compares them
 isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation as bs
 	| length as /= length bs = False
@@ -102,6 +103,7 @@ isPermutation as bs
 
 -- 9.
 -- | Takes two strings and returns a 'String' containing characters that appear an equal amount of times in both strings.
+-- First sorts both strings, groups the same characters together and performs an intersection on these groups.
 equalCount :: String -> String -> String
 equalCount xs ys = map head $ group (quicksort xs) `intersection` group (quicksort ys)
 	where
@@ -112,6 +114,8 @@ equalCount xs ys = map head $ group (quicksort xs) `intersection` group (quickso
 
 -- 10.
 -- | Takes a list and returns a list of lists where every element n is a list of every nth element in the input list.
+-- Starts with the length of the list as the divisor and recursively decrements this.
+-- For every disivor pass, the indices of the list are looped and the element at this index added to the result if the index can be divided by the divisor.
 elken :: [a] -> [[a]]
 elken xs = reverse $ elken' xs (length xs)
 	where
@@ -121,6 +125,7 @@ elken xs = reverse $ elken' xs (length xs)
 -- 11.
 -- | Takes a list and returns a list of every local maximum.
 -- A local maximum is where an element is greater than both its neighbours.
+-- The list is recursively looped and every element compared to its neighbours.
 locMax :: (Eq a, Ord a) => [a] -> [a]
 locMax [] = []
 locMax (x:[]) = []
