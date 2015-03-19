@@ -47,10 +47,8 @@ quicksort (x:xs) =
 -- 1.
 -- | Checks if a 'String' contains a digit.
 containsDecimal :: String -> Bool
-containsDecimal [] = False
-containsDecimal (x:xs)
-	| isDigit x = True
-	| otherwise = containsDecimal xs
+containsDecimal = any isDigit
+
 
 -- 2.
 -- | Returns a list of decimals in a 'String'.
