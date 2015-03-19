@@ -9,15 +9,18 @@ isDigit :: Char -> Bool
 isDigit x = x `elem` ['0'..'9']
 
 -- 1.
---| Checks if a 'String' contains a digit.
+-- |Checks if a 'String' contains a digit.
 containsDecimal :: String -> Bool
 containsDecimal [] = False
 containsDecimal (x:xs)
 	| isDigit x = True
 	| otherwise = containsDecimal xs
 
+-- Test
+containsDecimalTest = containsDecimal "hallo123 456 test" == True
+
 -- 2.
---| 
+-- | 
 getDecimalsAsString :: String -> [String]
 getDecimalsAsString [] = []
 getDecimalsAsString (x:xs)
@@ -25,17 +28,23 @@ getDecimalsAsString (x:xs)
 	| otherwise = getDecimalsAsString xs
 	where chain = takeWhile isDigit xs
 
---| Convert 'String' to a list of 'Int'.
+-- | Convert 'String' to a list of 'Int'.
 getDecimals :: String -> [Int]
 getDecimals xs = map read $ (getDecimalsAsString xs) :: [Int]
 
+-- Test
+getDecimalsTest = getDecimals "Hallo123 456 test78" == [123,456,78]
+
 -- 3.
---| Returns 'length' of 'getDecimalsAsString'
+-- | Returns 'length' of 'getDecimalsAsString'
 decimalCount :: String -> Int
 decimalCount = length . getDecimalsAsString
 
+-- Test
+decimalCountTest = decimalCount "Hallo123 456 test78" == 3
+
 -- 4.
---| 
+-- | 
 longestDecimal :: String -> Int
 longestDecimal = longestDecimal' . getDecimalsAsString
 	where
@@ -43,12 +52,12 @@ longestDecimal = longestDecimal' . getDecimalsAsString
 		longestDecimal' (x:xs) = max (length x) (longestDecimal' xs)
 
 -- 5.
---| Returns 'maximum' decimal from a 'String'
+-- | Returns 'maximum' decimal from a 'String'
 maxDecimal :: String -> Int
 maxDecimal = maximum . getDecimals
 
 -- 6.
---| 
+-- | 
 unique :: (Eq a) => [a] -> [a]
 unique xs = unique' xs []
 	where
@@ -61,7 +70,7 @@ intersection :: String -> String -> String
 intersection xs ys = unique [x | x <- xs, x `elem` ys]
 
 -- 7.
---|
+-- |
 disjunction :: String -> String -> String
 disjunction xs ys = (uniqueChars xs ys) ++ (uniqueChars ys xs)
 	where
@@ -75,14 +84,14 @@ quicksort (x:xs) =
         biggerList = quicksort [a | a <- xs, a > x]  
     in  smallerList ++ [x] ++ biggerList  
 
---| Does a quicksort on both input lists and compares them
+-- | Does a quicksort on both input lists and compares them
 isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation as bs
 	| length as /= length bs = False
 	| otherwise = quicksort as == quicksort bs
 
 -- 9.
---| 
+-- | 
 equalCount :: String -> String -> String
 equalCount xs ys = foldr (\i acc -> if letterCount commonLetters xs !! i == letterCount commonLetters ys !! i then (commonLetters !! i) : acc else acc) [] [0..length commonLetters - 1]
 	where 
@@ -90,7 +99,7 @@ equalCount xs ys = foldr (\i acc -> if letterCount commonLetters xs !! i == lett
 		letterCount ls as = map (\l -> foldr (\x acc -> if x == l then 1 + acc else acc) 0 as) ls
 
 -- 10.
---| 
+-- | 
 elken :: [a] -> [[a]]
 elken xs = reverse $ elken' xs (length xs)
 	where
@@ -98,7 +107,7 @@ elken xs = reverse $ elken' xs (length xs)
 		elken' xs d = [xs !! (i - 1) | i <- [1..length xs], i `mod` d == 0] : elken' xs (d - 1)
 
 -- 11.
---| 
+-- | 
 locMax :: (Eq a, Ord a) => [a] -> [a]
 locMax [] = []
 locMax (x:[]) = []
