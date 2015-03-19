@@ -1,6 +1,6 @@
 {-|
 INFSEN-01-1 - Assignment one
-By Erik Schamper (, INF3C),
+By Erik Schamper (0864951, INF3C),
 Timon van Spronsen (0866142, INF3C)
 |-}
 
