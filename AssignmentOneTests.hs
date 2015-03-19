@@ -1,4 +1,4 @@
-import RainbowUnicorn
+import Assignment_One
 
 {-|
 INFSEN-01-1 - Assignment one tests

@@ -4,7 +4,7 @@ By Erik Schamper (, INF3C),
 Timon van Spronsen (0866142, INF3C)
 |-}
 
-module RainbowUnicorn
+module Assignment_One
 ( isDigit  
 , containsDecimal
 , getDecimalsAsString
