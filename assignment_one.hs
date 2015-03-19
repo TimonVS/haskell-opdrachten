@@ -4,6 +4,24 @@ By Erik Schamper (, INF3C),
 Timon van Spronsen (0866142, INF3C)
 |-}
 
+module RainbowUnicorn
+( isDigit  
+, containsDecimal
+, getDecimalsAsString
+, getDecimals
+, decimalCount
+, longestDecimal
+, maxDecimal
+, unique
+, intersection
+, disjunction
+, quicksort
+, isPermutation
+, equalCount
+, elken
+, locMax
+) where 
+
 -- Helper functions
 isDigit :: Char -> Bool
 isDigit x = x `elem` ['0'..'9']
@@ -15,9 +33,6 @@ containsDecimal [] = False
 containsDecimal (x:xs)
 	| isDigit x = True
 	| otherwise = containsDecimal xs
-
--- Test
-containsDecimalTest = containsDecimal "hallo123 456 test" == True
 
 -- 2.
 -- | 
@@ -32,16 +47,10 @@ getDecimalsAsString (x:xs)
 getDecimals :: String -> [Int]
 getDecimals xs = map read $ (getDecimalsAsString xs) :: [Int]
 
--- Test
-getDecimalsTest = getDecimals "Hallo123 456 test78" == [123,456,78]
-
 -- 3.
 -- | Returns 'length' of 'getDecimalsAsString'
 decimalCount :: String -> Int
 decimalCount = length . getDecimalsAsString
-
--- Test
-decimalCountTest = decimalCount "Hallo123 456 test78" == 3
 
 -- 4.
 -- | 
