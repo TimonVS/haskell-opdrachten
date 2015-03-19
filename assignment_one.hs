@@ -24,9 +24,9 @@ containsDecimalTest = containsDecimal "hallo123 456 test" == True
 getDecimalsAsString :: String -> [String]
 getDecimalsAsString [] = []
 getDecimalsAsString (x:xs)
-	| isDigit x = (x : chain) : getDecimalsAsString (drop (length chain) xs)
+	| isDigit x = (x:ys) : getDecimalsAsString zs
 	| otherwise = getDecimalsAsString xs
-	where chain = takeWhile isDigit xs
+	where (ys, zs) = span isDigit xs
 
 -- | Convert 'String' to a list of 'Int'.
 getDecimals :: String -> [Int]
@@ -93,10 +93,13 @@ isPermutation as bs
 -- 9.
 -- | 
 equalCount :: String -> String -> String
-equalCount xs ys = foldr (\i acc -> if letterCount commonLetters xs !! i == letterCount commonLetters ys !! i then (commonLetters !! i) : acc else acc) [] [0..length commonLetters - 1]
-	where 
-		commonLetters = intersection xs ys
-		letterCount ls as = map (\l -> foldr (\x acc -> if x == l then 1 + acc else acc) 0 as) ls
+equalCount xs ys = map head [x | x <- group (quicksort xs), x `elem` group (quicksort ys)]
+	where
+		group [] = []
+		group (z:zs) = 
+			let (as, bs) = span (== z) zs
+			in (z:as) : group bs
+
 
 -- 10.
 -- | 
