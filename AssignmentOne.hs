@@ -23,11 +23,29 @@ module Assignment_One
 ) where 
 
 -- Helper functions
+-- | Checks if a 'Char' is a digit.
 isDigit :: Char -> Bool
 isDigit x = x `elem` ['0'..'9']
 
+-- | Takes a list and returns a list with no duplicate elements
+unique :: (Eq a) => [a] -> [a]
+unique xs = unique' xs []
+	where
+		unique' [] _ = []
+		unique' (x:xs) ls
+			| x `elem` ls = unique' xs ls
+			| otherwise = x : unique' xs (x:ls)
+
+-- | Quicksort algorithm
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []  
+quicksort (x:xs) =   
+    let smallerList = quicksort [a | a <- xs, a <= x]  
+        biggerList = quicksort [a | a <- xs, a > x]  
+    in  smallerList ++ [x] ++ biggerList  
+
 -- 1.
--- |Checks if a 'String' contains a digit.
+-- | Checks if a 'String' contains a digit.
 containsDecimal :: String -> Bool
 containsDecimal [] = False
 containsDecimal (x:xs)
@@ -35,7 +53,7 @@ containsDecimal (x:xs)
 	| otherwise = containsDecimal xs
 
 -- 2.
--- | 
+-- | Returns a list of decimals in a 'String'.
 getDecimalsAsString :: String -> [String]
 getDecimalsAsString [] = []
 getDecimalsAsString (x:xs)
@@ -53,7 +71,7 @@ decimalCount :: String -> Int
 decimalCount = length . getDecimalsAsString
 
 -- 4.
--- | 
+-- | Returns the longest decimal in a 'String'
 longestDecimal :: String -> Int
 longestDecimal = longestDecimal' . getDecimalsAsString
 	where
@@ -61,38 +79,23 @@ longestDecimal = longestDecimal' . getDecimalsAsString
 		longestDecimal' (x:xs) = max (length x) (longestDecimal' xs)
 
 -- 5.
--- | Returns 'maximum' decimal from a 'String'
+-- | Returns 'maximum' decimal in a 'String'
 maxDecimal :: String -> Int
 maxDecimal = maximum . getDecimals
 
 -- 6.
--- | 
-unique :: (Eq a) => [a] -> [a]
-unique xs = unique' xs []
-	where
-		unique' [] _ = []
-		unique' (x:xs) ls
-			| x `elem` ls = unique' xs ls
-			| otherwise = x : unique' xs (x:ls)
-
-intersection :: String -> String -> String
+-- | Takes two lists and returns a list containing only elements that appear in both lists.
+intersection :: (Eq a) => [a] -> [a] -> [a]
 intersection xs ys = unique [x | x <- xs, x `elem` ys]
 
 -- 7.
--- |
-disjunction :: String -> String -> String
-disjunction xs ys = (uniqueChars xs ys) ++ (uniqueChars ys xs)
+-- | Takes two lists and returns a list containing only elements that appear in one of the lists.
+disjunction :: (Eq a) => [a] -> [a] -> [a]
+disjunction xs ys = (uniqueElements xs ys) ++ (uniqueElements ys xs)
 	where
-		uniqueChars as bs = unique [a | a <- as, not (a `elem` bs)]
+		uniqueElements as bs = unique [a | a <- as, not (a `elem` bs)]
 
 -- 8.
-quicksort :: (Ord a) => [a] -> [a]  
-quicksort [] = []  
-quicksort (x:xs) =   
-    let smallerList = quicksort [a | a <- xs, a <= x]  
-        biggerList = quicksort [a | a <- xs, a > x]  
-    in  smallerList ++ [x] ++ biggerList  
-
 -- | Does a quicksort on both input lists and compares them
 isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation as bs
@@ -100,18 +103,17 @@ isPermutation as bs
 	| otherwise = quicksort as == quicksort bs
 
 -- 9.
--- | 
+-- | Takes two strings and returns a 'String' containing characters that appear an equal amount of times in both strings.
 equalCount :: String -> String -> String
-equalCount xs ys = map head [x | x <- group (quicksort xs), x `elem` group (quicksort ys)]
+equalCount xs ys = map head $ group (quicksort xs) `intersection` group (quicksort ys)
 	where
 		group [] = []
 		group (z:zs) = 
 			let (as, bs) = span (== z) zs
 			in (z:as) : group bs
 
-
 -- 10.
--- | 
+-- | Takes a list and returns a list of lists where every element n is a list of every nth element in the input list.
 elken :: [a] -> [[a]]
 elken xs = reverse $ elken' xs (length xs)
 	where
@@ -119,7 +121,8 @@ elken xs = reverse $ elken' xs (length xs)
 		elken' xs d = [xs !! (i - 1) | i <- [1..length xs], i `mod` d == 0] : elken' xs (d - 1)
 
 -- 11.
--- | 
+-- | Takes a list and returns a list of every local maximum.
+-- A local maximum is where an element is greater than both its neighbours.
 locMax :: (Eq a, Ord a) => [a] -> [a]
 locMax [] = []
 locMax (x:[]) = []
