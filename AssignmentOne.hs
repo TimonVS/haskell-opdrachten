@@ -1,11 +1,11 @@
 {-|
 INFSEN-01-1 - Assignment one
-By Erik Schamper (, INF3C),
+By Erik Schamper (0864951, INF3C),
 Timon van Spronsen (0866142, INF3C)
 |-}
 
 module AssignmentOne
-( isDigit  
+( isDigit
 , containsDecimal
 , getDecimalsAsString
 , getDecimals
@@ -20,7 +20,7 @@ module AssignmentOne
 , equalCount
 , elken
 , locMax
-) where 
+) where
 
 -- Helper functions
 -- | Checks if a 'Char' is a digit.
@@ -94,7 +94,7 @@ disjunction xs ys = (uniqueElements xs ys) ++ (uniqueElements ys xs)
 		uniqueElements as bs = unique [a | a <- as, not (a `elem` bs)]
 
 -- 8.
--- | Takes two 'String's and checks whether or not they are a permutation of eachother. 
+-- | Takes two 'String's and checks whether or not they are a permutation of eachother.
 -- Does a quicksort on both input lists and compares them
 isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation as bs
