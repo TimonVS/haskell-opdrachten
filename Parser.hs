@@ -48,7 +48,7 @@ many' p = do
   vs <- many p
   return (v:vs)
 
-nat :: Parser Int
+nat :: Parser Float
 nat = do
   xs <- many' digit
   return (read xs)
@@ -59,25 +59,37 @@ digit = sat C.isDigit
 char :: Char -> Parser Char
 char x = sat (x ==)
 
-expr :: Parser Int
+expr :: Parser Float
 expr = do
   t <- term
   do
     char '+'
     e <- expr
     return (t + e)
-   +++ return t
 
-term :: Parser Int
+    +++ do
+      char '-'
+      e <- expr
+      return (t - e)
+
+      +++ return t
+
+term :: Parser Float
 term = do
   f <- factor
   do
     char '*'
     t <- term
     return (f * t)
-   +++ return f
 
-factor :: Parser Int
+    +++ do
+      char '/'
+      t <- term
+      return (f / t)
+
+      +++ return f
+
+factor :: Parser Float
 factor = do
   d <- nat
   return d
@@ -87,5 +99,7 @@ factor = do
     char ')'
     return e
 
-eval :: String -> Int
+eval :: String -> Float
 eval xs = fst(head(parse expr xs))
+
+eval' xs = parse expr xs
