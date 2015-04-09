@@ -64,6 +64,8 @@ execute (BWaarde s1 : BWaarde s2 : ss) (Of : xs)         = execute (s':ss) xs
 execute (_:_:_) (Of:_)                                   = errType "Of"
 execute _ (Of:_)                                         = errUnderflow "Of"
 
+-- | Opdracht A3 uitbreiding
+
 execute (IWaarde s1 : IWaarde s2 : ss) (Gelijk : xs)     = execute (s':ss) xs
     where s' = BWaarde (s1 == s2)
 execute (_:_:_) (Gelijk:_)                               = errType "Gelijk"
