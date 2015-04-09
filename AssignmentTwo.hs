@@ -10,6 +10,10 @@ data BExpr = BWaarde Bool
 
 data Expr = BExpr BExpr | IExpr IExpr
 
+data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
+
+
+-- A.
 
 -- 1.
 zetom :: Expr -> [VStackExpr]
@@ -28,4 +32,13 @@ zetom (IExpr x) = zetom' x
 -- 2.
 evalueer :: Expr -> Either String VStackWaarde
 evalueer = vStack . zetom
+
+
+-- B.
+
+isCompleteTree :: (Tree x) -> Bool
+isCompleteTree (Node _ EmptyTree EmptyTree) = True
+isCompleteTree (Node _ EmptyTree _) = False
+isCompleteTree (Node _ _ EmptyTree) = False
+isCompleteTree (Node _ left right) = True && isCompleteTree left && isCompleteTree right
 
