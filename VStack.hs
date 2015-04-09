@@ -15,6 +15,9 @@ data VStackExpr = IPush Integer
                 | Vermenigvuldig
                 | En
                 | Of
+                | Gelijk
+                | Ongelijk
+                | Niet
                  deriving Show
 
 type VStack    = [VStackWaarde]
@@ -46,12 +49,12 @@ execute (IWaarde s1 : IWaarde s2 : ss) (Telop : xs)      = execute (s':ss) xs
 execute (_:_:_) (Telop:_)                                = errType "Telop"
 execute _ (Telop:_)                                      = errUnderflow "Telop"
 
-execute (IWaarde s1:IWaarde s2:ss) (Vermenigvuldig : xs) = execute (s':ss) xs
+execute (IWaarde s1 : IWaarde s2:ss) (Vermenigvuldig : xs) = execute (s':ss) xs
     where s' = IWaarde (s1 * s2)
 execute (_:_:_) (Vermenigvuldig:_)                       = errType "Vermenigvuldig"
 execute _ (Vermenigvuldig:_)                             = errUnderflow "Vermenigvuldig"
 
-execute (BWaarde s1:BWaarde s2:ss) (En : xs)             = execute (s':ss) xs
+execute (BWaarde s1 : BWaarde s2 : ss) (En : xs)         = execute (s':ss) xs
     where s' = BWaarde (s1 && s2)
 execute (_:_:_) (En:_)                                   = errType "En"
 execute _ (En:_)                                         = errUnderflow "En"
@@ -61,5 +64,21 @@ execute (BWaarde s1 : BWaarde s2 : ss) (Of : xs)         = execute (s':ss) xs
 execute (_:_:_) (Of:_)                                   = errType "Of"
 execute _ (Of:_)                                         = errUnderflow "Of"
 
+execute (IWaarde s1 : IWaarde s2 : ss) (Gelijk : xs)     = execute (s':ss) xs
+    where s' = BWaarde (s1 == s2)
+execute (_:_:_) (Gelijk:_)                               = errType "Gelijk"
+execute _ (Gelijk:_)                                     = errUnderflow "Gelijk"
+
+execute (IWaarde s1 : IWaarde s2 : ss) (Ongelijk : xs)   = execute (s':ss) xs
+    where s' = BWaarde (s1 /= s2)
+execute (_:_:_) (Ongelijk:_)                             = errType "Ongelijk"
+execute _ (Ongelijk:_)                                   = errUnderflow "Ongelijk"
+
+execute (BWaarde s1 : ss) (Niet : xs)                    = execute (s':ss) xs
+    where s' = BWaarde (not s1)
+execute (_:_:_) (Niet:_)                                 = errType "Niet"
+execute _ (Niet:_)                                       = errUnderflow "Niet"
+
 itest = vStack [IPush 3, IPush 5, Telop]
 btest = vStack [BPush True, BPush False, En]
+ntest = vStack [IPush 4, IPush 2, IPush 2, Vermenigvuldig, Gelijk]
