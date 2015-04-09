@@ -35,7 +35,7 @@ zetomTest3 = zetom (IExpr (Main.Telop (Main.Telop (Main.IWaarde 1) (Main.IWaarde
 
 
 -- 2.
--- | 
+-- | Evalueer maakt door gebruik van currying een functie die een Expr doorgeeft aan de `zetom` functie en het resultaat doorzet naar de `vStack` functie
 
 evalueer :: Expr -> Either String VStackWaarde
 evalueer = vStack . zetom
